@@ -75,8 +75,6 @@ jobs:
         chmod 600 private_key
 
 
-
-
         ssh -o StrictHostKeyChecking=no -i private_key $EC2_USER@$EC2_HOST << 'EOF'
           cd $DEPLOY_PATH
           git pull origin main
