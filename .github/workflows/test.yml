@@ -70,15 +70,12 @@ jobs:
         EC2_USER: ${{ secrets.EC2_USER }}
         DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
       run: |
-        echo "デプロイ開始"
         echo "$SSH_PRIVATE_KEY" > private_key
-        echo "デプロイ開始111"
         chmod 600 private_key
 
         ssh -o StrictHostKeyChecking=no -i private_key $EC2_USER@$EC2_HOST << 'EOF'
-        echo "デプロイ開始222"
           cd $DEPLOY_PATH
-          git pull origin main
+          composer update
           composer install --no-interaction --prefer-dist --optimize-autoloader
           php artisan migrate --force
           php artisan config:cache
