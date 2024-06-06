@@ -4,7 +4,9 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    types: [closed]
+    branches:
+      - main
 
 jobs:
   laravel-tests:
@@ -74,7 +76,7 @@ jobs:
         chmod 600 private_key
 
         ssh -o StrictHostKeyChecking=no -i private_key $EC2_USER@$EC2_HOST << 'EOF'
-          cd $DEPLOY_PATH
+          cd /var/www/
           composer update
           composer install --no-interaction --prefer-dist --optimize-autoloader
           php artisan migrate --force
