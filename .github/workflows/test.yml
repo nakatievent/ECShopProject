@@ -76,7 +76,8 @@ jobs:
         chmod 600 private_key
 
         ssh -o StrictHostKeyChecking=no -i private_key $EC2_USER@$EC2_HOST << 'EOF'
-          git config --global --add safe.directory /var/www/
+          sudo su -
+          cd /var/www/
           git pull origin main || exit 1
           composer update
           composer install --no-interaction --prefer-dist --optimize-autoloader
