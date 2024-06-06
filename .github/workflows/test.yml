@@ -89,3 +89,6 @@ jobs:
 
     - name: Clean up
       run: rm private_key
+
+    - name: test
+      run: echo 'test'
