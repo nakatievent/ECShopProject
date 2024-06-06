@@ -77,6 +77,7 @@ jobs:
 
         ssh -o StrictHostKeyChecking=no -i private_key $EC2_USER@$EC2_HOST << 'EOF'
           cd /var/www/
+          git pull origin main || exit 1
           composer update
           composer install --no-interaction --prefer-dist --optimize-autoloader
           php artisan migrate --force
