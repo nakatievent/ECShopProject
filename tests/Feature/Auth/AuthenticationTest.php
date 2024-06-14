@@ -4,11 +4,20 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // テスト用データベースに seed を実行する
+        Artisan::call('migrate:fresh --seed');
+    }
 
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
