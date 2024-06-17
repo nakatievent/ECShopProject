@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/login', App\Http\Controllers\Auth\LoginController::class)->name('login');
+
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
