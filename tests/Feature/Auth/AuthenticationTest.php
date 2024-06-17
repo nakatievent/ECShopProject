@@ -4,7 +4,9 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -15,21 +17,22 @@ class AuthenticationTest extends TestCase
     {
         parent::setUp();
 
-        // テスト用データベースに seed を実行する
         Artisan::call('migrate:fresh --seed');
     }
 
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
-        $user = User::factory()->create();
-
         $response = $this->post('/login', [
-            'email' => $user->email,
+            'email'    => 'admin@gmail.com',
             'password' => 'password',
         ]);
 
         $this->assertAuthenticated();
-        $response->assertNoContent();
+
+        $response->assertJson([
+            'success' => true,
+            'message' => '認証に成功しました。',
+        ]);
     }
 
     public function test_users_can_not_authenticate_with_invalid_password(): void
@@ -37,7 +40,7 @@ class AuthenticationTest extends TestCase
         $user = User::factory()->create();
 
         $this->post('/login', [
-            'email' => $user->email,
+            'email'    => $user->email,
             'password' => 'wrong-password',
         ]);
 
