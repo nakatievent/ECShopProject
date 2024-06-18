@@ -22,8 +22,15 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 // 商品
 Route::prefix('products')->name('products.')->group(function() {
     Route::get('list', App\Http\Controllers\Products\IndexController::class)->name('list');
-    Route::post('search', App\Http\Controllers\Products\SearchController::class)->name('search');
-    Route::post('detail', App\Http\Controllers\Products\DetailController::class)->name('detail');
+    Route::get('search/{keyword}', App\Http\Controllers\Products\SearchController::class)->name('search');
+    Route::get('detail/{id}', App\Http\Controllers\Products\DetailController::class)->name('detail');
+});
+
+// カテゴリー
+Route::prefix('categories')->name('categories.')->group(function() {
+    Route::get('/{category_id}/products', App\Http\Controllers\Categories\CategoryProductController::class)->name('category-product');
+    Route::get('/list', App\Http\Controllers\Categories\ListController::class)->name('category-list');
+    // Route::get('detail/{id}', App\Http\Controllers\Products\DetailController::class)->name('detail');
 });
 
 // お気に入り

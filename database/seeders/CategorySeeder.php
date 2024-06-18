@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
     {
         $categories = [];
 
-        for ($index = 1; $index <= 10; $index++) {
+        for ($index = 1; $index <= 15; $index++) {
             $categories[] = [
                 'name'        => 'カテゴリー' . $index,
                 'description' => 'カテゴリー' . $index . 'の説明',

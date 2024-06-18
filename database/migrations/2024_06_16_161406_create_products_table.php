@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id()->comment('ID');
 
             // 外部キー
-            $table->unsignedInteger('category_id')->comment('商品カテゴリーID');
             $table->unsignedInteger('brand_id')->comment('ブランドID');
             $table->unsignedInteger('review_id')->comment('レビューID');
 
