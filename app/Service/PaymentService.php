@@ -7,8 +7,10 @@ use App\Models\Product;
 // use App\Models\AnalysisGroup;
 // use App\Models\AnalysisGroupRelationship;
 // use App\Models\Shop;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Stripe\StripeClient;
+use Stripe\PaymentIntent;
 
 class PaymentService extends Service
 {
@@ -25,13 +27,15 @@ class PaymentService extends Service
 
     /**
      * StripeClientの初期化
+     *
+     * @return StripeClient
      */
     public function getStripeClient(): StripeClient
     {
         // WARNING: versionを変更するとWebHookで飛んでくるリクエストデータがおかしくなるので注意
         $stripe = new StripeClient([
-            "api_key"        => config('payment.platform.stripe_api_key'),
-            "stripe_version" => config('payment.platform.stripe_api_version'),
+            "api_key"        => config('payment.stripe.api_key'),
+            "stripe_version" => config('payment.stripe.api_version'),
         ]);
 
         return $stripe;
@@ -40,7 +44,6 @@ class PaymentService extends Service
 
     /**
      * Stripeの顧客作成
-     * ※1: SOUPの新規登録時に使用するメソッド
      */
     public function createStripeCustomer(): string
     {
@@ -68,37 +71,33 @@ class PaymentService extends Service
      * @param  mixed $request
      * @return array
      */
-    public function createPaymentIntent($request, ?string $stripeConnectId = null): ?array
+    public function createPaymentIntent(Request $request, ?string $stripeConnectId = null): string|bool
     // public function createPaymentIntent(CreatePaymentIntentRequest $request, ?string $stripeConnectId = null): ?array
     {
-        $paymentIntent = null;
-
         try {
             $stripe      = $this->getStripeClient();
-            $totalAmount = (int) $request['decide_price'];
+            $totalPrice = (int) $request['total_price'];
 
             $params = [
-                'amount'   => $totalAmount,
+                'amount'   => $totalPrice,
                 'currency' => config('payment.currency'),
                 'metadata' => [
-                    'payment_type' => $request['payment_type'] ?? null,
-                    // 'shop_name'    => $this->getShopName()     ?? null
+                    'test' => 'test',
                 ]
             ];
 
-            $response = $stripe->paymentIntents->create($params, [
-                'stripe_account' => $stripeConnectId
-            ]);
+            $paymentIntent = $stripe->paymentIntents->create($params);
 
-            $paymentIntent = json_decode($response->toJson(), true);
+            // 決済するのに必要な情報の返却
+            if ($paymentIntent instanceof PaymentIntent && $paymentIntent->status === "requires_payment_method") {
+                return $paymentIntent->client_secret;
+            }
 
         } catch (\Exception $e) {
+            Log::debug('paymentIntent作成エラー:' . $e->getMessage());
             // $this->log('paymentIntent作成エラー:' . $e->getMessage());
         }
 
-        return $paymentIntent;
+        return false;
     }
-
-
-
 }

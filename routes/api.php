@@ -34,13 +34,20 @@ Route::prefix('categories')->name('categories.')->group(function() {
 });
 
 // お気に入り
-Route::prefix('favorite')->name('favorite.')->group(function() {
+Route::prefix('favorites')->name('favorites.')->group(function() {
     Route::post('/favorite-add', App\Http\Controllers\Favorites\AddController::class)->name('favorite-add');
     Route::post('/favorite-delete', App\Http\Controllers\Favorites\DeleteController::class)->name('favorite-delete');
     Route::get('/favorite-list', App\Http\Controllers\Favorites\ListController::class)->name('favorite-list');
 });
 
+// 決済
+Route::prefix('payments')->name('payments.')->group(function() {
+    Route::post('/create', App\Http\Controllers\Payments\CreateController::class)->name('payment-create');
+    // Route::post('/favorite-delete', App\Http\Controllers\Favorites\DeleteController::class)->name('favorite-delete');
+    // Route::get('/favorite-list', App\Http\Controllers\Favorites\ListController::class)->name('favorite-list');
+});
+
 // よくある質問
-Route::prefix('faq')->name('faq.')->group(function() {
+Route::prefix('faqs')->name('faqs.')->group(function() {
     Route::get('/list/{shop_id}', App\Http\Controllers\Faqs\ListController::class)->name('faq-list');
 });
