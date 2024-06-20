@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Models\Product;
+use Illuminate\Http\Request;
+
 // use App\Http\Requests\Actives\SearchRequest;
 // use App\Models\AnalysisGroup;
 // use App\Models\AnalysisGroupRelationship;
@@ -39,9 +41,9 @@ class ProductService extends Service
      * @param  mixed $id
      * @return void
      */
-    public function search(int $id)
+    public function search(string $keyword)
     {
-        return $this->Product->search($id);
+        return $this->Product->search($keyword);
     }
 
 
@@ -51,7 +53,7 @@ class ProductService extends Service
      * @param  mixed $id
      * @return void
      */
-    public function detail(int $id)
+    public function getDetail(int $id)
     {
         return $this->Product->detail($id);
     }
