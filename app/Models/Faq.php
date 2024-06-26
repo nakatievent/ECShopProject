@@ -12,6 +12,11 @@ class Faq extends Model
 {
     use HasFactory;
 
+    /**
+     * Shop
+     *
+     * @return BelongsTo
+     */
     public function Shop(): BelongsTo
     {
         return $this->belongsTo(Shop::class);

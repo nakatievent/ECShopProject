@@ -34,6 +34,6 @@ class ProductCategoriesTableSeeder extends Seeder
             }
         }
 
-        DB::table('product_categories')->insert($productCategories);
+        DB::table('product_category_relations')->insert($productCategories);
     }
 }
