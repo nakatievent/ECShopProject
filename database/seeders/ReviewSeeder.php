@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ReviewSeeder extends Seeder
 {
@@ -17,12 +18,12 @@ class ReviewSeeder extends Seeder
     {
         $revies = [];
 
-        $users = DB::table('users')->get();
-        $count = DB::table('products')->count();
+        $users      = DB::table('users')->get();
+        $productIds = DB::table('products')->pluck('id')->toArray();
 
-        for ($index = 1; $index <= $count; $index++) {
+        for ($index = 1; $index <= 1000; $index++) {
             $revies[] = [
-                'product_id' => $index,
+                'product_id' => $productIds[array_rand($productIds)],
                 'user_id'    => $users->random()->id,
                 'comment'    => 'レビュー' . $index . 'の説明',
                 'rating'     => rand(1, 5),
