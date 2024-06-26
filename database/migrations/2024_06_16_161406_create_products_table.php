@@ -18,7 +18,6 @@ return new class extends Migration
 
             // 外部キー
             $table->unsignedInteger('brand_id')->comment('ブランドID');
-            $table->unsignedInteger('review_id')->comment('レビューID');
 
             // 商品情報
             $table->string('name')->comment('商品名');
@@ -46,6 +45,12 @@ return new class extends Migration
      */
     public function down()
     {
+        // リレーションにproduct_idが入っていると外部キー制約で削除できないので下記の記述で削除
+        Schema::dropIfExists('product_color_relations');
+        Schema::dropIfExists('product_size_relations');
+        Schema::dropIfExists('product_image_relations');
+        // Schema::dropIfExists('product_review_relations');
+        Schema::dropIfExists('product_categories');
         Schema::dropIfExists('products');
     }
 };
