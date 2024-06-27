@@ -20,7 +20,7 @@ class FavoriteSeeder extends Seeder
         $userIds    = DB::table('users')->pluck('id')->toArray();
         $productIds = DB::table('products')->pluck('id')->toArray();
 
-        for ($index = 1; $index <= 10; $index++) {
+        for ($index = 1; $index <= 1000; $index++) {
             $favorites[] = [
                 'user_id'    => $userIds[array_rand($userIds)],
                 'product_id' => $productIds[array_rand($productIds)],

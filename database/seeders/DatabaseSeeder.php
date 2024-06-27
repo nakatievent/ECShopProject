@@ -19,13 +19,13 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BrandSeeder::class,
             CategorySeeder::class,
-            ReviewSeeder::class,
+            // ReviewSeeder::class,
             ProductSeeder::class,
             ReviewSeeder::class,
             PaymentSeeder::class,
             FaqSeeder::class,
             ProductCategoriesTableSeeder::class,
-
+            FavoriteSeeder::class,
         ]);
     }
 }
