@@ -20,11 +20,10 @@ class ProductCategoriesTableSeeder extends Seeder
 
         $productIds    = DB::table('products')->pluck('id')->toArray();
         $categoryIds   = DB::table('categories')->pluck('id')->toArray();
-        $categoryCount = rand(1, 3);
 
         foreach ($productIds as $productId) {
             // 各商品にランダムなカテゴリーを関連付ける
-            $randomCategories = array_rand(array_flip($categoryIds), $categoryCount);
+            $randomCategories = array_rand(array_flip($categoryIds), rand(1, 3));
 
             foreach ((array) $randomCategories as $categoryId) {
                 $productCategories[] = [
