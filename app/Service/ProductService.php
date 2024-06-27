@@ -2,8 +2,11 @@
 
 namespace App\Service;
 
+use App\Models\Review;
 use App\Models\Product;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 // use App\Http\Requests\Actives\SearchRequest;
 // use App\Models\AnalysisGroup;
@@ -13,14 +16,19 @@ use Illuminate\Http\Request;
 
 class ProductService extends Service
 {
-    // const SEARCH_ERROR_CODE = 400;
-
+    private $Review;
     private $Product;
+    private $Favorite;
 
 
-    public function __construct(Product $Product)
+    public function __construct(
+        Product  $Product,
+        Review   $Review,
+        Favorite $Favorite)
     {
-        $this->Product = $Product;
+        $this->Review   = $Review;
+        $this->Product  = $Product;
+        $this->Favorite = $Favorite;
     }
 
 
@@ -48,13 +56,26 @@ class ProductService extends Service
 
 
     /**
-     * 商品詳細
+     * 商品詳細の取得
      *
      * @param  mixed $id
      * @return void
      */
-    public function getDetail(int $id)
+    public function getDetail(int $productId)
     {
-        return $this->Product->detail($id);
+        $result = null;
+
+        try {
+            $result = $this->Product->detail($productId);
+
+            if (! is_null($result)) {
+                $favoriteCount      = $this->Favorite->getCountForProduct($productId);
+                $result['favorite'] = $favoriteCount;
+            }
+        } catch (\Exception $e) {
+            // $this->log('stripeの顧客作成エラー:' . $e->getMessage());
+        }
+
+        return $result;
     }
 }
