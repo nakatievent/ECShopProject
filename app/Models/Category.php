@@ -12,9 +12,15 @@ class Category extends Model
 {
     use HasFactory;
 
+
+    /**
+     * products
+     *
+     * @return belongsToMany
+     */
     public function products(): belongsToMany
     {
-        return $this->belongsToMany(Product::class, 'product_categories');
+        return $this->belongsToMany(Product::class, 'product_category_relations');
     }
 
 
@@ -34,11 +40,16 @@ class Category extends Model
     }
 
 
-
-    public function getCategoryList(): Collection
+    /**
+     * カテゴリー一覧を取得
+     *
+     * @return void
+     */
+    public function getCategoryList()
     {
         return $this
             ->select('id', 'name')
-            ->get();
+            ->get()
+            ->toArray();
     }
 }
