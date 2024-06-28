@@ -49,7 +49,6 @@ return new class extends Migration
         Schema::dropIfExists('product_color_relations');
         Schema::dropIfExists('product_size_relations');
         Schema::dropIfExists('product_image_relations');
-        // Schema::dropIfExists('product_review_relations');
         Schema::dropIfExists('product_categories');
         Schema::dropIfExists('products');
     }

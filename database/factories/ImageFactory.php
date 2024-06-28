@@ -16,8 +16,17 @@ class ImageFactory extends Factory
      */
     public function definition()
     {
+        // 画像のフルパスを生成
+        $fullImagePath = fake()->image(storage_path('app/public'), 640, 480);
+
+        // フルパスからファイル名を抽出
+        $imageName = basename($fullImagePath);
+
+        // URL形式に変換
+        $imageUrl = url('storage/' . $imageName);
+
         return [
-            'image_url' => fake()->image(storage_path('app/public'), 640, 480)
+            'image_url' => $imageUrl,
         ];
     }
 }
