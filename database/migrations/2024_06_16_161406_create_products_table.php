@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('image_alt')->nullable()->comment('alt属性の説明');
             $table->string('size')->nullable()->comment('サイズ');
             $table->boolean('status')->default(true)->comment('商品ステータス');
+            $table->boolean('rating')->default(true)->comment('商品の評価');
             $table->decimal('discount', 5, 2)->nullable()->comment('割引率');
             $table->unsignedInteger('reviews_count')->default(0)->comment('レビュー数');
 
