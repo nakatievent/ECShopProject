@@ -31,6 +31,7 @@ class ProductSeeder extends Seeder
                 'image_alt'   => '商品' . $index . 'のalt属性の説明',
                 'size'        => null,
                 'status'      => true,
+                'rating'      => rand(1, 5),
                 'discount'    => rand(0, 50) / 10,
                 'created_at'  => now(),
                 'updated_at'  => now(),
